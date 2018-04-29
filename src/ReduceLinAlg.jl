@@ -38,8 +38,8 @@ const unr = [
 
 for fun in lin
     @eval begin
-        $(Reduce.parsegen(fun,:calculus))
-        $(Reduce.unfoldgen(fun,:calculus))
+        $(Reduce.parsegen(fun,:args))
+        $(Reduce.unfoldgen(fun,:args))
         function $fun(expr::Compat.String,s...;be=0)
             convert(Compat.String, $fun(RExpr(expr),s...;be=be))
         end
@@ -61,10 +61,10 @@ const MatExpr = Union{Array{Any,2},Array{Expr,2},Array{Symbol,2},Expr,Symbol}
 band_matrix(r::Union{Vector,RowVector,Expr,Symbol},v::Integer) = band_matrix(list(r),v) |> parse
 block_matrix(r::Integer,c::Integer,s::VectorAny) = block_matrix(RExpr(r),RExpr(c),list(s)) |> parse
 
-char_matrix(r::Reduce.MatExpr,v::Any) = char_matrix(list(r),RExpr(v)) |> parse
-char_poly(r::Reduce.MatExpr,v::Any) = char_matrix(list(r),RExpr(v)) |> parse
+char_matrix(r::Reduce.MatExpr,v::Any) = mat(char_matrix(list(r),RExpr(v)) |> parse,r)
+char_poly(r::Reduce.MatExpr,v::Any) = mat(char_matrix(list(r),RExpr(v)) |> parse,r)
 
-extend(a::MatExpr,r::Integer,c::Integer,s) = extend(RExpr(a),r,c,RExpr(s)) |> parse
+extend(a::MatExpr,r::Integer,c::Integer,s) = mat(extend(RExpr(a),r,c,RExpr(s)) |> parse,a)
 
 hessian(r::Reduce.ExprSymbol,l::T) where T <: VectorAny  = hessian(r,list(l))
 
@@ -102,16 +102,17 @@ Computes the square Jordan block matrix `J` of dimension `square_size`.
 The entries of `J` are `J[i,i] = expr` for i = 1,...,n, `J[i,i+1] = 1` for i = 1,...,n-1, and all other entries are 0.
 """ jordan_block
 
-kronecker_product(a::MatExpr,b::MatExpr) = kronecker(RExpr(a),RExpr(b)) |> parse
+kronecker_product(a::MatExpr,b::MatExpr) = mat(kronecker(RExpr(a),RExpr(b)) |> parse,a,b)
 
 cholesky(r::Array{T,2}) where T <: Number = cholesky(RExpr(r)) |> parse |> mat
 coeff_matrix(r::VectorAny) = coeff_matrix(list(r)) |> parse
 diagonal(r::VectorAny) = diagonal(list(r)) |> parse
-gram_shmidt(r::Vector{<:Vector}) = gram_shmidt(list(r)) |> parse
-hermitian_tp(r::MatExpr) = hermitian_tp(RExpr(r)) |> parse
-symmetricp(r::MatExpr) = symmetricp(RExpr(r)) |> parse
+gram_schmidt(r::Vector{<:Vector}) = gram_schmidt(list(r)) |> parse
+gram_schmidt(r::Matrix) = gram_schmidt(list(r)) |> parse
+hermitian_tp(r::MatExpr) = mat(hermitian_tp(RExpr(r)) |> parse, r)
+symmetricp(r::MatExpr) = mat(symmetricp(RExpr(r)) |> parse, r)
 toeplitz(r::VectorAny) = toeplitz(list(r)) |> parse
-triang_adjoint(r::MatExpr) = triang_adjoint(RExpr(r)) |> parse
+triang_adjoint(r::MatExpr) = mat(triang_adjoint(RExpr(r)) |> parse, r)
 vandermonde(r::VectorAny) = vandermonde(list(r)) |> parse
 
 function __init__()
