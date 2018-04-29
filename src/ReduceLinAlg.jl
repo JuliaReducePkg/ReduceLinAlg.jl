@@ -34,7 +34,7 @@ const unr = [
     :vandermonde,
 ]
 
-:(export $(lin...)) |> eval
+:(export $([lin;unr]...)) |> eval
 
 for fun in lin
     @eval begin
