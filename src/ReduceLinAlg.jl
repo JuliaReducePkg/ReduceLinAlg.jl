@@ -59,14 +59,17 @@ end
 const MatExpr = Union{Array{Any,2},Array{Expr,2},Array{Symbol,2},Expr,Symbol}
 
 band_matrix(r::Union{Vector,RowVector,Expr,Symbol},v::Integer) = band_matrix(list(r),v) |> parse
+band_matrix(r::T,v::Integer) where T <: Tuple = band_matrix(RExpr(r),v) |> parse
 block_matrix(r::Integer,c::Integer,s::VectorAny) = block_matrix(RExpr(r),RExpr(c),list(s)) |> parse
+block_matrix(r::Integer,c::Integer,s::T) where T <: Tuple = block_matrix(RExpr(r),RExpr(c),RExpr(s)) |> parse
 
-char_matrix(r::Reduce.MatExpr,v::Any) = mat(char_matrix(list(r),RExpr(v)) |> parse,r)
-char_poly(r::Reduce.MatExpr,v::Any) = mat(char_matrix(list(r),RExpr(v)) |> parse,r)
+char_matrix(r::MatExpr,v::Any) = mat(char_matrix(list(r),RExpr(v)) |> parse,r)
+char_poly(r::MatExpr,v::Any) = mat(char_matrix(list(r),RExpr(v)) |> parse,r)
 
 extend(a::MatExpr,r::Integer,c::Integer,s) = mat(extend(RExpr(a),r,c,RExpr(s)) |> parse,a)
 
 hessian(r::Reduce.ExprSymbol,l::T) where T <: VectorAny  = hessian(r,list(l))
+hessian(r::Reduce.ExprSymbol,l::T) where T <: Tuple  = hessian(r,RExpr(l))
 
 @doc """
     hessian(expr,var_list::Vector)
@@ -82,6 +85,11 @@ function mat_jacobian(r::T,v::S) where T <: VectorAny where S <: VectorAny
     mat_jacobian(list(r),list(v)) |> parse
 end
 
+function mat_jacobian(r::T,v::S) where T <: Tuple where S <: Tuple
+    mat_jacobian(RExpr(r),RExpr(v)) |> parse
+end
+
+
 @doc """
     mat_jacobian(expr_list::Vector,var_list::Vector)
 
@@ -90,9 +98,9 @@ Computes the Jacobian matrix of `expr_list` with respect to `var_list`.
 This is a matrix whose (i,j)th entry is `df(expr_list[i],var_list[j])`. The matrix is n×m where n is the number of variables and m is the number of expressions.
 """ mat_jacobian
 
-jacobian = mat_jacobian
+export jacobian
 
-jordan_block(r::Any,s::Integer) = jordan_block(RExpr(r),s) |> parse
+jacobian = mat_jacobian
 
 @doc """
     jordan_block(expr,square_size::Integer)
@@ -106,14 +114,19 @@ kronecker_product(a::MatExpr,b::MatExpr) = mat(kronecker(RExpr(a),RExpr(b)) |> p
 
 cholesky(r::Array{T,2}) where T <: Number = cholesky(RExpr(r)) |> parse |> mat
 coeff_matrix(r::VectorAny) = coeff_matrix(list(r)) |> parse
+coeff_matrix(r::T) where T <: Tuple = coeff_matrix(RExpr(r)) |> parse
 diagonal(r::VectorAny) = diagonal(list(r)) |> parse
+diagonal(r::T) where T <: Tuple = diagonal(RExpr(r)) |> parse
 gram_schmidt(r::Vector{<:Vector}) = gram_schmidt(list(r)) |> parse
+gram_schmidt(r::T) where T <: Tuple = gram_schmidt(RExpr(r)) |> parse
 gram_schmidt(r::Matrix) = gram_schmidt(list(r)) |> parse
 hermitian_tp(r::MatExpr) = mat(hermitian_tp(RExpr(r)) |> parse, r)
 symmetricp(r::MatExpr) = mat(symmetricp(RExpr(r)) |> parse, r)
 toeplitz(r::VectorAny) = toeplitz(list(r)) |> parse
+toeplitz(r::T) where T <: Tuple = toeplitz(RExpr(r)) |> parse
 triang_adjoint(r::MatExpr) = mat(triang_adjoint(RExpr(r)) |> parse, r)
 vandermonde(r::VectorAny) = vandermonde(list(r)) |> parse
+vandermonde(r::T) where T <: Tuple = vandermonde(RExpr(r)) |> parse
 
 function __init__()
     load_package(:linalg)

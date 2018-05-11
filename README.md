@@ -7,9 +7,10 @@
 **LINALG: Linear algebra package**
 *A selection of functions that are useful in the world of linear algebra*
 
-[![Build Status](https://travis-ci.org/chakravala/ReduceLinAlg.jl.svg?branch=master)](https://travis-ci.org/chakravala/ReduceLinAlg.jl)
-[![Coverage Status](https://coveralls.io/repos/chakravala/ReduceLinAlg.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/chakravala/ReduceLinAlg.jl?branch=master)
-[![codecov.io](http://codecov.io/github/chakravala/ReduceLinAlg.jl/coverage.svg?branch=master)](http://codecov.io/github/chakravala/ReduceLinAlg.jl?branch=master)
+[![Build Status](https://travis-ci.org/JuliaReducePkg/ReduceLinAlg.jl.svg?branch=master)](https://travis-ci.org/JuliaReducePkg/ReduceLinAlg.jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/e239kk217a0lb92w?svg=true)](https://ci.appveyor.com/project/chakravala/reducelinalg-jl)
+[![Coverage Status](https://coveralls.io/repos/JuliaReducePkg/ReduceLinAlg.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/JuliaReducePkg/ReduceLinAlg.jl?branch=master)
+[![codecov.io](http://codecov.io/github/JuliaReducePkg/ReduceLinAlg.jl/coverage.svg?branch=master)](http://codecov.io/github/JuliaReducePkg/ReduceLinAlg.jl?branch=master)
 [![Join the chat at gitter](https://badges.gitter.im/Reduce-jl/Lobby.svg)](https://gitter.im/Reduce-jl/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Upstream REDUCE package by Matt Rebbeck.
