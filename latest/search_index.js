@@ -13,7 +13,7 @@ var documenterSearchIndex = {"docs": [
     "page": "User\'s Manual",
     "title": "ReduceLinAlg.jl",
     "category": "section",
-    "text": "LINALG: Linear algebra package A selection of functions that are useful in the world of linear algebraThis Julia package relies on Reduce.jl parser generator by dispatching methods from the \"linalg\" package (stable / latest).Meta-package ReduceAlgebra.jl, upstream docs (LINALG / pdf), Julia docs (stable / latest)"
+    "text": "LINALG: Linear algebra package A selection of functions that are useful in the world of linear algebraThis Julia package relies on the Reduce.jl parser generator, Julia docs (stable / latest).Meta-package ReduceAlgebra.jl, upstream docs (LINALG / pdf), Julia docs (stable / latest)"
 },
 
 {
