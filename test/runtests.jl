@@ -1,3 +1,4 @@
+using Reduce
 using ReduceLinAlg
 using Base.Test
 
