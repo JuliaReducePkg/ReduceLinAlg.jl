@@ -1,13 +1,11 @@
 __precompile__()
 module ReduceLinAlg
-importall Reduce
-using Compat
-import Compat.String
+using Reduce, LinearAlgebra
 
 #   This file is part of ReduceLinAlg.jl. It is licensed under the MIT license
 #   Copyright (C) 2018 Michael Reed
 
-const VectorAny = Union{Vector,RowVector}
+const VectorAny = Union{Vector,Adjoint}
 
 const lin = [
     :hessian,
@@ -40,8 +38,8 @@ for fun in lin
     @eval begin
         $(Reduce.parsegen(fun,:args))
         $(Reduce.unfoldgen(fun,:args))
-        function $fun(expr::Compat.String,s...;be=0)
-            convert(Compat.String, $fun(RExpr(expr),s...;be=be))
+        function $fun(expr::String,s...;be=0)
+            convert(String, $fun(RExpr(expr),s...;be=be))
         end
     end
 end
@@ -50,15 +48,15 @@ for fun in unr
     @eval begin
         $(Reduce.parsegen(fun,:unary))
         $(Reduce.unfoldgen(fun,:unary))
-        function $fun(expr::Compat.String;be=0)
-            convert(Compat.String, $fun(RExpr(expr);be=be))
+        function $fun(expr::String;be=0)
+            convert(String, $fun(RExpr(expr);be=be))
         end
     end
 end
 
 const MatExpr = Union{Array{Any,2},Array{Expr,2},Array{Symbol,2},Expr,Symbol}
 
-band_matrix(r::Union{Vector,RowVector,Expr,Symbol},v::Integer) = band_matrix(list(r),v) |> parse
+band_matrix(r::Union{Vector,Adjoint,Expr,Symbol},v::Integer) = band_matrix(list(r),v) |> parse
 band_matrix(r::T,v::Integer) where T <: Tuple = band_matrix(RExpr(r),v) |> parse
 block_matrix(r::Integer,c::Integer,s::VectorAny) = block_matrix(RExpr(r),RExpr(c),list(s)) |> parse
 block_matrix(r::Integer,c::Integer,s::T) where T <: Tuple = block_matrix(RExpr(r),RExpr(c),RExpr(s)) |> parse

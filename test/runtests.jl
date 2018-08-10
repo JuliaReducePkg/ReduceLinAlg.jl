@@ -1,6 +1,6 @@
 using Reduce
 using ReduceLinAlg
-using Base.Test
+using Test
 
 # write your own tests here
 @test mat_jacobian((:x,),(:x,)) == mat_jacobian([:x],[:x])
