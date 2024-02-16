@@ -130,4 +130,6 @@ function __init__()
     load_package(:linalg)
 end
 
+Reduce.stop()
+
 end # module

@@ -1,9 +1,15 @@
 name = "ReduceLinAlg"
 uuid = "bfcbc1eb-9170-5dc4-a833-47b2e27cecb4"
+authors = ["Michael Reed"]
+version = "0.1.1"
 
 [deps]
 Reduce = "93e0c654-6965-5f22-aba9-9c1ae6b3c259"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+
+[compat]
+julia = "1"
+Reduce = "1.2.13"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
